@@ -3,6 +3,7 @@ using System.ComponentModel.Design;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
@@ -28,6 +29,11 @@ namespace PclToNetStandard
         /// VS Package that provides this command, not null.
         /// </summary>
         private readonly AsyncPackage package;
+
+        /// <summary>
+        /// DTE object
+        /// </summary>
+        private static EnvDTE.DTE Dte;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConvertCommand"/> class.
@@ -74,7 +80,7 @@ namespace PclToNetStandard
             // Verify the current thread is the UI thread - the call to AddCommand in ConvertCommand's constructor requires
             // the UI thread.
             ThreadHelper.ThrowIfNotOnUIThread();
-
+            Dte = await package.GetServiceAsync(typeof(DTE)) as DTE;
             OleMenuCommandService commandService = await package.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
             Instance = new ConvertCommand(package, commandService);
         }
@@ -89,6 +95,9 @@ namespace PclToNetStandard
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
+
+            Project project = (Project)((object[])Dte.ActiveSolutionProjects)[0];
+
             string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
             string title = "ConvertCommand";
 

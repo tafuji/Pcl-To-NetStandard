@@ -37,7 +37,7 @@
          must be a menu. -->
     <Groups>
       <Group guid="guidConvertCommandPackageCmdSet" id="MyMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+        <!--<Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>-->
       </Group>
     </Groups>
 
@@ -71,6 +71,12 @@
       <Bitmap guid="guidImages" href="Resources\ConvertCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
     </Bitmaps>
   </Commands>
+  
+  <CommandPlacements>
+    <CommandPlacement guid="guidConvertCommandPackageCmdSet" id="MyMenuGroup" priority="0xFFFF">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
+    </CommandPlacement>
+  </CommandPlacements>
 
   <Symbols>
     <!-- This is the package guid. -->

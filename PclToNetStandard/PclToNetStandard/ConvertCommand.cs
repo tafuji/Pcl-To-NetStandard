@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Flavor;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
 
@@ -54,8 +55,14 @@ namespace PclToNetStandard
 
         private void OnBeforeQueryStatus(object sender, EventArgs e)
         {
+            if (Dte == null)
+                return;
+            Project project = (Project)((object[])Dte.ActiveSolutionProjects)[0];
+            Solution.GetProjectOfUniqueName(project.UniqueName, out IVsHierarchy hierarchy);
+            IVsAggregatableProjectCorrected ap = hierarchy as IVsAggregatableProjectCorrected;
+            ap.GetAggregateProjectTypeGuids(out string projTypeGuids);
             OleMenuCommand cmd = (OleMenuCommand)sender;
-            cmd.Visible = true;
+            cmd.Visible = projTypeGuids == Constants.PclProjectTypeGuids;
         }
 
         /// <summary>
@@ -75,6 +82,17 @@ namespace PclToNetStandard
             get
             {
                 return this.package;
+            }
+        }
+
+        private IVsSolution _solution;
+        private IVsSolution Solution
+        {
+            get
+            {
+                if(_solution == null)
+                    _solution = (IVsSolution)Package.GetGlobalService(typeof(SVsSolution));
+                return _solution;
             }
         }
 
@@ -103,6 +121,7 @@ namespace PclToNetStandard
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             Project project = (Project)((object[])Dte.ActiveSolutionProjects)[0];
+
 
             string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
             string title = "ConvertCommand";

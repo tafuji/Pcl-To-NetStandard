@@ -54,6 +54,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="ConvertCommand.cs" />
     <Compile Include="VsPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,6 +69,7 @@
   <ItemGroup>
     <VSCTCompile Include="VsPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
     </VSCTCompile>
     <Content Include="index.html" />
     <Content Include="Resources\ConvertCommand.png" />

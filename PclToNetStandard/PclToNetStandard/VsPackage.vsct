@@ -55,6 +55,8 @@
       <Button guid="guidConvertCommandPackageCmdSet" id="ConvertCommandId" priority="0x0100" type="Button">
         <Parent guid="guidConvertCommandPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
           <ButtonText>Invoke ConvertCommand</ButtonText>
         </Strings>

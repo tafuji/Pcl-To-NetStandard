@@ -33,7 +33,7 @@ namespace PclToNetStandard
         /// <summary>
         /// DTE object
         /// </summary>
-        private static EnvDTE.DTE Dte;
+        private EnvDTE.DTE Dte;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConvertCommand"/> class.
@@ -47,8 +47,15 @@ namespace PclToNetStandard
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
-            var menuItem = new MenuCommand(this.Execute, menuCommandID);
+            var menuItem = new OleMenuCommand(this.Execute, menuCommandID);
+            menuItem.BeforeQueryStatus += new EventHandler(OnBeforeQueryStatus);
             commandService.AddCommand(menuItem);
+        }
+
+        private void OnBeforeQueryStatus(object sender, EventArgs e)
+        {
+            OleMenuCommand cmd = (OleMenuCommand)sender;
+            cmd.Visible = true;
         }
 
         /// <summary>
@@ -80,9 +87,9 @@ namespace PclToNetStandard
             // Verify the current thread is the UI thread - the call to AddCommand in ConvertCommand's constructor requires
             // the UI thread.
             ThreadHelper.ThrowIfNotOnUIThread();
-            Dte = await package.GetServiceAsync(typeof(DTE)) as DTE;
             OleMenuCommandService commandService = await package.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
             Instance = new ConvertCommand(package, commandService);
+            Instance.Dte = await package.GetServiceAsync(typeof(DTE)) as DTE;
         }
 
         /// <summary>
@@ -95,7 +102,6 @@ namespace PclToNetStandard
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-
             Project project = (Project)((object[])Dte.ActiveSolutionProjects)[0];
 
             string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);

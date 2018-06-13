@@ -55,6 +55,7 @@ namespace PclToNetStandard
 
         private void OnBeforeQueryStatus(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             if (Dte == null)
                 return;
             Project project = (Project)((object[])Dte.ActiveSolutionProjects)[0];
@@ -90,7 +91,8 @@ namespace PclToNetStandard
         {
             get
             {
-                if(_solution == null)
+                ThreadHelper.ThrowIfNotOnUIThread();
+                if (_solution == null)
                     _solution = (IVsSolution)Package.GetGlobalService(typeof(SVsSolution));
                 return _solution;
             }

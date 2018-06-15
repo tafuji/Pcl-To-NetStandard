@@ -58,7 +58,7 @@
         <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
-          <ButtonText>Invoke ConvertCommand</ButtonText>
+          <ButtonText>Convert to .NET Standard</ButtonText>
         </Strings>
       </Button>
     </Buttons>

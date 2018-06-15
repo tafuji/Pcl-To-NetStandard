@@ -124,6 +124,15 @@ namespace PclToNetStandard
             ThreadHelper.ThrowIfNotOnUIThread();
             Project project = (Project)((object[])Dte.ActiveSolutionProjects)[0];
 
+            var packageConfig = project.GetPackageConfigFilePath();
+
+            // TODO : Test Codes
+            var converter = new PclToNetStandard.Templates.NetStandardTemplate();
+            converter.Packages.Add(new Templates.PackageReference(){ Name= "Xamarin.Forms", Version= "3.000" });
+            var resultString = converter.TransformText();
+            var templateFile = System.IO.Path.Combine(project.GetProjectRootPath(), "Test.xml");
+            System.IO.File.WriteAllText(templateFile, resultString, System.Text.Encoding.UTF8);
+
 
             string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
             string title = "ConvertCommand";

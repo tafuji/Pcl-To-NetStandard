@@ -1,0 +1,15 @@
+﻿<#@ template language="C#" visibility="internal" #>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+  <# foreach (PackageReference item in Packages)
+     { #>
+      <PackageReference Include="<#= item.Name #>" Version="<#= item.Version #>"/>
+  <# }
+  #>
+  </ItemGroup>
+
+</Project>

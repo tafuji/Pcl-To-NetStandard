@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="ConvertCommand.cs" />
+    <Compile Include="ProjectExtension.cs" />
     <Compile Include="VsPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

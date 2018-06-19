@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EnvDTE;
@@ -132,6 +133,9 @@ namespace PclToNetStandard
             var resultString = converter.TransformText();
             var templateFile = System.IO.Path.Combine(project.GetProjectRootPath(), "Test.xml");
             System.IO.File.WriteAllText(templateFile, resultString, System.Text.Encoding.UTF8);
+
+            ProjectItem assemblyInfo = project.GetAssemblyInfo();
+            var code = assemblyInfo.FileCodeModel;
 
 
             string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);

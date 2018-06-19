@@ -14,6 +14,6 @@ namespace PclToNetStandard
         /// <summary>
         /// Portable Class Library projet Kind
         /// </summary>
-        public const string PclProjectTypeGuids = "{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}";
+        public static readonly string PclProjectTypeGuids = "{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}";
     }
 }

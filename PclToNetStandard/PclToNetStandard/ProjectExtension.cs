@@ -12,7 +12,13 @@ namespace PclToNetStandard
         /// <summary>
         /// Package config file name.
         /// </summary>
-        private const string PackageConfigFileName = "packages.config";
+        private static readonly string PackageConfigFileName = "packages.config";
+
+        private static readonly string ProjectConfigJsonFineName = "project.json";
+
+        private static readonly string PropertiesFolderName = "Properties";
+
+        private static readonly string AssemblyInfoCsFileName = "AssemblyInfo.cs";
 
         /// <summary>
         /// Package config file path of the project.
@@ -43,6 +49,17 @@ namespace PclToNetStandard
         public static string GetProjectRootPath(this Project project)
         {
             return System.IO.Path.GetDirectoryName(project.FileName);
+        }
+
+        public static ProjectItem GetAssemblyInfo(this Project project)
+        {
+            ProjectItem assemblyInfo = null;
+            ProjectItem prop = project.ProjectItems.Cast<ProjectItem>().Where(p => p.Name == PropertiesFolderName).FirstOrDefault();
+            if(prop != null)
+            {
+                assemblyInfo = prop.ProjectItems.Cast<ProjectItem>().Where(p => p.Name == AssemblyInfoCsFileName).FirstOrDefault();
+            }
+            return assemblyInfo;
         }
     }
 }

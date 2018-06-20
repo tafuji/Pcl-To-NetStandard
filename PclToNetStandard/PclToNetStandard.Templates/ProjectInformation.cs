@@ -6,13 +6,6 @@ using System.Threading.Tasks;
 
 namespace PclToNetStandard.Templates
 {
-    internal partial class NetStandardTemplate
-    {
-        public List<PackageReference> Packages { get; set; } = new List<PackageReference>();
-
-        public List<ProjectReference> ProjectRegerences { get; set; } = new List<ProjectReference>();
-    }
-
     internal class ProjectInformation
     {
         public string PackageVersion { get; set; }
@@ -32,16 +25,5 @@ namespace PclToNetStandard.Templates
         public string PackageTags { get; set; }
         public string PackageReleaseNotes { get; set; }
         public string NeutralLanguage { get; set; }
-    }
-
-    internal class PackageReference
-    {
-        public string Name { get; set; }
-        public string Version { get; set; }
-    }
-
-    internal class ProjectReference
-    {
-        public string Name { get; set; }
     }
 }

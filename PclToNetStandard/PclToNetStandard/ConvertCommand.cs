@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Design;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +11,11 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Flavor;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
+using PclToNetStandard.Templates;
+using Microsoft.VisualStudio;
+using VSLangProj;
+using NuGet.VisualStudio;
+using Microsoft.VisualStudio.ComponentModelHost;
 
 namespace PclToNetStandard
 {
@@ -60,9 +67,12 @@ namespace PclToNetStandard
             if (Dte == null)
                 return;
             Project project = (Project)((object[])Dte.ActiveSolutionProjects)[0];
+            if (project == null)
+                return;
             Solution.GetProjectOfUniqueName(project.UniqueName, out IVsHierarchy hierarchy);
             IVsAggregatableProjectCorrected ap = hierarchy as IVsAggregatableProjectCorrected;
-            ap.GetAggregateProjectTypeGuids(out string projTypeGuids);
+            string projTypeGuids = null;
+            ap?.GetAggregateProjectTypeGuids(out projTypeGuids);
             OleMenuCommand cmd = (OleMenuCommand)sender;
             cmd.Visible = projTypeGuids == Constants.PclProjectTypeGuids;
         }
@@ -99,6 +109,8 @@ namespace PclToNetStandard
             }
         }
 
+        private IVsPackageInstallerServices PackageInstallerService;
+
         /// <summary>
         /// Initializes the singleton instance of the command.
         /// </summary>
@@ -111,6 +123,8 @@ namespace PclToNetStandard
             OleMenuCommandService commandService = await package.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
             Instance = new ConvertCommand(package, commandService);
             Instance.Dte = await package.GetServiceAsync(typeof(DTE)) as DTE;
+            var componentModel = await package.GetServiceAsync(typeof(SComponentModel)) as IComponentModel;
+            Instance.PackageInstallerService = componentModel.GetService<IVsPackageInstallerServices>();
         }
 
         /// <summary>
@@ -125,30 +139,70 @@ namespace PclToNetStandard
             ThreadHelper.ThrowIfNotOnUIThread();
             Project project = (Project)((object[])Dte.ActiveSolutionProjects)[0];
 
-            var packageConfig = project.GetPackageConfigFilePath();
+            var nugetpackages = PackageInstallerService.GetInstalledPackages().ToList();
+            var packagelist = new List<PackageReference>();
+            foreach(var item in nugetpackages)
+            {
+                if(PackageInstallerService.IsPackageInstalled(project, item.Id))
+                {
+                    packagelist.Add(new PackageReference()
+                    {
+                        Name = item.Id,
+                        Version = item.VersionString
+                    });
+                }
+            }
 
-            // TODO : Test Codes
-            var converter = new PclToNetStandard.Templates.NetStandardTemplate();
-            converter.Packages.Add(new Templates.PackageReference(){ Name= "Xamarin.Forms", Version= "3.000" });
-            var resultString = converter.TransformText();
-            var templateFile = System.IO.Path.Combine(project.GetProjectRootPath(), "Test.xml");
-            System.IO.File.WriteAllText(templateFile, resultString, System.Text.Encoding.UTF8);
 
-            ProjectItem assemblyInfo = project.GetAssemblyInfo();
-            var code = assemblyInfo.FileCodeModel;
+            var service = ProjectConverterRepository.GetService(project);
+            service.BackupOldVersionFiles();
+            service.Convert();
 
+            //ProjectItem assemblyInfo = project.GetAssemblyInfo();
+            //var code = assemblyInfo.FileCodeModel;
 
-            string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
-            string title = "ConvertCommand";
+            IVsSolution4 solution4 = Solution as IVsSolution4;
+            Solution.GetProjectOfUniqueName(project.UniqueName, out IVsHierarchy hierarchy);
+            int hr = 0;
+            hierarchy.GetGuidProperty(Constants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_ProjectIDGuid, out Guid guid);
+            ErrorHandler.ThrowOnFailure(hr);
+            solution4.UnloadProject(guid, (uint)_VSProjectUnloadStatus.UNLOADSTATUS_UnloadedByUser);
+            solution4.ReloadProject(guid);
+            service.DeleteOldVersionFiles();
+        }
 
-            // Show a message box to prove we were here
-            VsShellUtilities.ShowMessageBox(
-                this.package,
-                message,
-                title,
-                OLEMSGICON.OLEMSGICON_INFO,
-                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+        private void BackupOldVersionFiles(Project project)
+        {
+            // Create backup folder.
+            var backupTime = DateTime.UtcNow;
+            var projectFolder = project.GetProjectRootPath();
+            var backupDirectory = Directory.CreateDirectory(Path.Combine(projectFolder, $"backup-{backupTime.ToString("yyyy-MM-dd-hhmmss")}"));
+
+            // Backup csproject file and package.config file.
+            File.Copy(project.FullName, Path.Combine(backupDirectory.FullName, project.GetProjectFileName()));
+            if(File.Exists(project.GetPackageConfigFilePath()))
+                File.Copy(project.GetPackageConfigFilePath(), Path.Combine(backupDirectory.FullName, Constants.PackageConfigFileName));
+
+            // Backup Properties folder and AssemblyInfo.cs file.
+            var propertiesDestination = Path.Combine(backupDirectory.FullName, Constants.PropertiesFolderName);
+            if (Directory.Exists(project.GetPropertiesFolderPath()))
+                Directory.CreateDirectory(propertiesDestination);
+            if(File.Exists(project.GetAssemblyInfoPath()))
+                File.Copy(project.GetAssemblyInfoPath(), Path.Combine(propertiesDestination, Constants.AssemblyInfoCsFileName));
+        }
+
+        private void RemoveOldVersionFiles(Project project)
+        {
+            // Backup csproject file and package.config file.
+            if (File.Exists(project.GetPackageConfigFilePath()))
+                File.Delete(project.GetPackageConfigFilePath());
+
+            // Backup Properties folder and AssemblyInfo.cs file.
+            if (File.Exists(project.GetAssemblyInfoPath()))
+                File.Delete(project.GetAssemblyInfoPath());
+            if (Directory.Exists(project.GetPropertiesFolderPath()))
+                Directory.Delete(project.GetPropertiesFolderPath());
+
         }
     }
 }

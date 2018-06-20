@@ -9,16 +9,26 @@ namespace PclToNetStandard
 {
     internal static class ProjectExtension
     {
+
         /// <summary>
-        /// Package config file name.
+        /// Get the AssemblyInfo.cs file path.
         /// </summary>
-        private static readonly string PackageConfigFileName = "packages.config";
+        /// <param name="project"></param>
+        /// <returns></returns>
+        public static string GetAssemblyInfoPath(this Project project)
+        {
+            return System.IO.Path.Combine(project.GetPropertiesFolderPath(), Constants.AssemblyInfoCsFileName);
+        }
 
-        private static readonly string ProjectConfigJsonFineName = "project.json";
+        public static bool ContainsProjectJson(this Project project)
+        {
+            return System.IO.File.Exists(project.GetProjectJsonFilePath());
+        }
 
-        private static readonly string PropertiesFolderName = "Properties";
-
-        private static readonly string AssemblyInfoCsFileName = "AssemblyInfo.cs";
+        public static string GetProjectJsonFilePath(this Project project)
+        {
+            return System.IO.Path.Combine(project.GetProjectRootPath(), Constants.ProjectJsonFileName);
+        }
 
         /// <summary>
         /// Package config file path of the project.
@@ -28,7 +38,18 @@ namespace PclToNetStandard
         public static string GetPackageConfigFilePath(this Project project)
         {
             var rootPath = project.GetProjectRootPath();
-            return System.IO.Path.Combine(rootPath, PackageConfigFileName);
+            return System.IO.Path.Combine(rootPath, Constants.PackageConfigFileName);
+        }
+
+        /// <summary>
+        /// Get the Properties directory path.
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
+        public static string GetPropertiesFolderPath(this Project project)
+        {
+            var rootPath = project.GetProjectRootPath();
+            return System.IO.Path.Combine(rootPath, Constants.PropertiesFolderName);
         }
 
         /// <summary>
@@ -54,10 +75,10 @@ namespace PclToNetStandard
         public static ProjectItem GetAssemblyInfo(this Project project)
         {
             ProjectItem assemblyInfo = null;
-            ProjectItem prop = project.ProjectItems.Cast<ProjectItem>().Where(p => p.Name == PropertiesFolderName).FirstOrDefault();
+            ProjectItem prop = project.ProjectItems.Cast<ProjectItem>().Where(p => p.Name == Constants.PropertiesFolderName).FirstOrDefault();
             if(prop != null)
             {
-                assemblyInfo = prop.ProjectItems.Cast<ProjectItem>().Where(p => p.Name == AssemblyInfoCsFileName).FirstOrDefault();
+                assemblyInfo = prop.ProjectItems.Cast<ProjectItem>().Where(p => p.Name == Constants.AssemblyInfoCsFileName).FirstOrDefault();
             }
             return assemblyInfo;
         }

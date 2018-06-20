@@ -15,7 +15,7 @@ namespace PclToNetStandard.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\DevProjects\PCL-To-NetStandard\PclToNetStandard\PclToNetStandard\Templates\NetStandardTemplate.tt"
+    #line 1 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
     internal partial class NetStandardTemplate : NetStandardTemplateBase
     {
@@ -28,7 +28,7 @@ namespace PclToNetStandard.Templates
             this.Write("<Project Sdk=\"Microsoft.NET.Sdk\">\r\n  <PropertyGroup>\r\n    <TargetFramework>netsta" +
                     "ndard2.0</TargetFramework>\r\n  </PropertyGroup>\r\n\r\n  <ItemGroup>\r\n  ");
             
-            #line 8 "C:\DevProjects\PCL-To-NetStandard\PclToNetStandard\PclToNetStandard\Templates\NetStandardTemplate.tt"
+            #line 8 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
  foreach (PackageReference item in Packages)
      { 
             
@@ -36,21 +36,21 @@ namespace PclToNetStandard.Templates
             #line hidden
             this.Write("      <PackageReference Include=\"");
             
-            #line 10 "C:\DevProjects\PCL-To-NetStandard\PclToNetStandard\PclToNetStandard\Templates\NetStandardTemplate.tt"
+            #line 10 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Name));
             
             #line default
             #line hidden
             this.Write("\" Version=\"");
             
-            #line 10 "C:\DevProjects\PCL-To-NetStandard\PclToNetStandard\PclToNetStandard\Templates\NetStandardTemplate.tt"
+            #line 10 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Version));
             
             #line default
             #line hidden
             this.Write("\"/>\r\n  ");
             
-            #line 11 "C:\DevProjects\PCL-To-NetStandard\PclToNetStandard\PclToNetStandard\Templates\NetStandardTemplate.tt"
+            #line 11 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
  }
   
             

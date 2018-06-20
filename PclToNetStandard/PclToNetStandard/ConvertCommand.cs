@@ -138,71 +138,11 @@ namespace PclToNetStandard
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             Project project = (Project)((object[])Dte.ActiveSolutionProjects)[0];
-
-            var nugetpackages = PackageInstallerService.GetInstalledPackages().ToList();
-            var packagelist = new List<PackageReference>();
-            foreach(var item in nugetpackages)
-            {
-                if(PackageInstallerService.IsPackageInstalled(project, item.Id))
-                {
-                    packagelist.Add(new PackageReference()
-                    {
-                        Name = item.Id,
-                        Version = item.VersionString
-                    });
-                }
-            }
-
-
-            var service = ProjectConverterRepository.GetService(project);
-            service.BackupOldVersionFiles();
-            service.Convert();
+            var service = ProjectConverterRepository.GetService(project, PackageInstallerService, Solution);
+            service.Execute();
 
             //ProjectItem assemblyInfo = project.GetAssemblyInfo();
             //var code = assemblyInfo.FileCodeModel;
-
-            IVsSolution4 solution4 = Solution as IVsSolution4;
-            Solution.GetProjectOfUniqueName(project.UniqueName, out IVsHierarchy hierarchy);
-            int hr = 0;
-            hierarchy.GetGuidProperty(Constants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_ProjectIDGuid, out Guid guid);
-            ErrorHandler.ThrowOnFailure(hr);
-            solution4.UnloadProject(guid, (uint)_VSProjectUnloadStatus.UNLOADSTATUS_UnloadedByUser);
-            solution4.ReloadProject(guid);
-            service.DeleteOldVersionFiles();
-        }
-
-        private void BackupOldVersionFiles(Project project)
-        {
-            // Create backup folder.
-            var backupTime = DateTime.UtcNow;
-            var projectFolder = project.GetProjectRootPath();
-            var backupDirectory = Directory.CreateDirectory(Path.Combine(projectFolder, $"backup-{backupTime.ToString("yyyy-MM-dd-hhmmss")}"));
-
-            // Backup csproject file and package.config file.
-            File.Copy(project.FullName, Path.Combine(backupDirectory.FullName, project.GetProjectFileName()));
-            if(File.Exists(project.GetPackageConfigFilePath()))
-                File.Copy(project.GetPackageConfigFilePath(), Path.Combine(backupDirectory.FullName, Constants.PackageConfigFileName));
-
-            // Backup Properties folder and AssemblyInfo.cs file.
-            var propertiesDestination = Path.Combine(backupDirectory.FullName, Constants.PropertiesFolderName);
-            if (Directory.Exists(project.GetPropertiesFolderPath()))
-                Directory.CreateDirectory(propertiesDestination);
-            if(File.Exists(project.GetAssemblyInfoPath()))
-                File.Copy(project.GetAssemblyInfoPath(), Path.Combine(propertiesDestination, Constants.AssemblyInfoCsFileName));
-        }
-
-        private void RemoveOldVersionFiles(Project project)
-        {
-            // Backup csproject file and package.config file.
-            if (File.Exists(project.GetPackageConfigFilePath()))
-                File.Delete(project.GetPackageConfigFilePath());
-
-            // Backup Properties folder and AssemblyInfo.cs file.
-            if (File.Exists(project.GetAssemblyInfoPath()))
-                File.Delete(project.GetAssemblyInfoPath());
-            if (Directory.Exists(project.GetPropertiesFolderPath()))
-                Directory.Delete(project.GetPropertiesFolderPath());
-
         }
     }
 }

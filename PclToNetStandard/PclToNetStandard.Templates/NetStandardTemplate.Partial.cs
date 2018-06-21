@@ -8,6 +8,8 @@ namespace PclToNetStandard.Templates
 {
     internal partial class NetStandardTemplate
     {
+        public ProjectInformation Information { get; set; }
+
         public List<PackageReference> Packages { get; set; } = new List<PackageReference>();
 
         public List<ProjectReference> ProjectReferences { get; set; } = new List<ProjectReference>();

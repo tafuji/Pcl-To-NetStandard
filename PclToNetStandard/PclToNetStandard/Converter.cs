@@ -17,10 +17,6 @@ namespace PclToNetStandard
     {
         public static IProjectConverter GetService(Project project, IVsPackageInstallerServices packageInstaller, IVsSolution vsSolution)
         {
-            if (project.ContainsProjectJson())
-            {
-
-            }
             return new PackageConfigProjectConverter(project, packageInstaller, vsSolution);
         }
     }
@@ -98,6 +94,19 @@ namespace PclToNetStandard
         protected override bool Convert()
         {
             var converter = new NetStandardTemplate();
+            var projectInformation = new ProjectInformation()
+            {
+                AssemblyName = DteProject.Properties.Item($"{nameof(ProjectInformation.AssemblyName)}").Value?.ToString(),
+                RootNamespace = DteProject.Properties.Item($"{nameof(ProjectInformation.RootNamespace)}")?.Value?.ToString(),
+                Company = DteProject.Properties.Item($"{nameof(ProjectInformation.Company)}")?.Value?.ToString(),
+                Product = DteProject.Properties.Item($"{nameof(ProjectInformation.Product)}")?.Value?.ToString(),
+                AssemblyVersion = DteProject.Properties.Item($"{nameof(ProjectInformation.AssemblyVersion)}")?.Value?.ToString(),
+                AssemblyFileVersion = DteProject.Properties.Item($"{nameof(ProjectInformation.AssemblyVersion)}")?.Value?.ToString(),
+                Description = DteProject.Properties.Item($"{nameof(ProjectInformation.Description)}")?.Value?.ToString(),
+                Copyright = DteProject.Properties.Item($"{nameof(ProjectInformation.Copyright)}")?.Value?.ToString()
+            };
+            converter.Information = projectInformation;
+
             VSLangProj.VSProject vSProject = DteProject.Object as VSLangProj.VSProject;
             VSLangProj.References references = vSProject.References;
             foreach(VSLangProj.Reference reference in references)

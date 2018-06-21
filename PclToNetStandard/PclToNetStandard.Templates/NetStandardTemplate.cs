@@ -15,7 +15,7 @@ namespace PclToNetStandard.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\DevProjects\PCL-To-NetStandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
+    #line 1 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
     internal partial class NetStandardTemplate : NetStandardTemplateBase
     {
@@ -26,31 +26,62 @@ namespace PclToNetStandard.Templates
         public virtual string TransformText()
         {
             this.Write("<Project Sdk=\"Microsoft.NET.Sdk\">\r\n  <PropertyGroup>\r\n    <TargetFramework>netsta" +
-                    "ndard2.0</TargetFramework>\r\n  </PropertyGroup>\r\n  <ItemGroup>\r\n    <Compile Remo" +
-                    "ve=\"");
+                    "ndard2.0</TargetFramework>\r\n    ");
             
-            #line 7 "C:\DevProjects\PCL-To-NetStandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
+            #line 6 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
+ if(string.IsNullOrEmpty(Information.AssemblyName))
+	{ 
+            
+            #line default
+            #line hidden
+            this.Write("    <AssemblyName>");
+            
+            #line 8 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
+ Information.AssemblyName 
+            
+            #line default
+            #line hidden
+            this.Write("</AssemblyName>\r\n\t");
+            
+            #line 9 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
+ }
+            
+            #line default
+            #line hidden
+            this.Write(@"    <RootNamespace>SampleNetStandardAppNamespace</RootNamespace>
+    <Authors>Takeshi Fujimoto</Authors>
+    <Company>Sample Company</Company>
+    <Product>Sample Product</Product>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
+    <Description>Sample Description</Description>
+    <Copyright>Copyright 2018</Copyright>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove=""");
+            
+            #line 20 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(BackupFolderName));
             
             #line default
             #line hidden
             this.Write("\\**\" />\r\n    <EmbeddedResource Remove=\"");
             
-            #line 8 "C:\DevProjects\PCL-To-NetStandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
+            #line 21 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(BackupFolderName));
             
             #line default
             #line hidden
             this.Write("\\**\" />\r\n    <None Remove=\"");
             
-            #line 9 "C:\DevProjects\PCL-To-NetStandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
+            #line 22 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(BackupFolderName));
             
             #line default
             #line hidden
             this.Write("\\**\" />\r\n  </ItemGroup>\r\n  <ItemGroup>\r\n  ");
             
-            #line 12 "C:\DevProjects\PCL-To-NetStandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
+            #line 25 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
  foreach (PackageReference item in Packages)
      { 
             
@@ -58,28 +89,28 @@ namespace PclToNetStandard.Templates
             #line hidden
             this.Write("    <PackageReference Include=\"");
             
-            #line 14 "C:\DevProjects\PCL-To-NetStandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
+            #line 27 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Name));
             
             #line default
             #line hidden
             this.Write("\" Version=\"");
             
-            #line 14 "C:\DevProjects\PCL-To-NetStandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
+            #line 27 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Version));
             
             #line default
             #line hidden
             this.Write("\"/>\r\n  ");
             
-            #line 15 "C:\DevProjects\PCL-To-NetStandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
+            #line 28 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
  }
             
             #line default
             #line hidden
             this.Write("  </ItemGroup>\r\n  \r\n  <ItemGroup>\r\n  ");
             
-            #line 19 "C:\DevProjects\PCL-To-NetStandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
+            #line 32 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
  foreach (ProjectReference item in ProjectReferences)
      { 
             
@@ -87,14 +118,14 @@ namespace PclToNetStandard.Templates
             #line hidden
             this.Write("    <ProjectReference Include=\"");
             
-            #line 21 "C:\DevProjects\PCL-To-NetStandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
+            #line 34 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Include));
             
             #line default
             #line hidden
             this.Write("\" />\r\n  ");
             
-            #line 22 "C:\DevProjects\PCL-To-NetStandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
+            #line 35 "C:\DevProjects\PCL-To-NeSstandard\PclToNetStandard\PclToNetStandard.Templates\NetStandardTemplate.tt"
  }
             
             #line default

@@ -1,7 +1,20 @@
 ﻿<#@ template language="C#" visibility="internal" #>
+<#@ import namespace="System" #>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <# if(string.IsNullOrEmpty(Information.AssemblyName))
+	{ #>
+    <AssemblyName><# Information.AssemblyName #></AssemblyName>
+	<# }#>
+    <RootNamespace>SampleNetStandardAppNamespace</RootNamespace>
+    <Authors>Takeshi Fujimoto</Authors>
+    <Company>Sample Company</Company>
+    <Product>Sample Product</Product>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
+    <Description>Sample Description</Description>
+    <Copyright>Copyright 2018</Copyright>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="<#= BackupFolderName #>\**" />

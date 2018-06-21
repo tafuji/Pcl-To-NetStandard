@@ -75,6 +75,11 @@ namespace PclToNetStandard
             ap?.GetAggregateProjectTypeGuids(out projTypeGuids);
             OleMenuCommand cmd = (OleMenuCommand)sender;
             cmd.Visible = projTypeGuids == Constants.PclProjectTypeGuids;
+
+            Solution vsSolution = Dte.Solution;
+            SolutionBuild solutionBuild =  vsSolution.SolutionBuild;
+            vsBuildState buildState = solutionBuild.BuildState;
+            cmd.Enabled = buildState != vsBuildState.vsBuildStateInProgress;
         }
 
         /// <summary>

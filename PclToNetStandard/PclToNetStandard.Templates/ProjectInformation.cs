@@ -10,12 +10,11 @@ namespace PclToNetStandard.Templates
     {
         public string AssemblyName { get; set; }
         public string RootNamespace { get; set; }
-        public string Authors { get; set; }
         public string Company { get; set; }
         public string Product { get; set; }
-        public string Copyright { get; set; }
         public string AssemblyVersion { get; set; }
         public string AssemblyFileVersion { get; set; }
         public string Description { get; set; }
+        public string Copyright { get; set; }
     }
 }

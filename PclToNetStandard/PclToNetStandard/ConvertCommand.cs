@@ -140,9 +140,6 @@ namespace PclToNetStandard
             Project project = (Project)((object[])Dte.ActiveSolutionProjects)[0];
             var service = ProjectConverterRepository.GetService(project, PackageInstallerService, Solution);
             service.Execute();
-
-            //ProjectItem assemblyInfo = project.GetAssemblyInfo();
-            //var code = assemblyInfo.FileCodeModel;
         }
     }
 }

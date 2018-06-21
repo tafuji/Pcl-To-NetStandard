@@ -3,18 +3,38 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <# if(string.IsNullOrEmpty(Information.AssemblyName))
+    <# if(!string.IsNullOrEmpty(Information.AssemblyName))
 	{ #>
-    <AssemblyName><# Information.AssemblyName #></AssemblyName>
+    <AssemblyName><#= Information.AssemblyName #></AssemblyName>
 	<# }#>
-    <RootNamespace>SampleNetStandardAppNamespace</RootNamespace>
-    <Authors>Takeshi Fujimoto</Authors>
-    <Company>Sample Company</Company>
-    <Product>Sample Product</Product>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
-    <Description>Sample Description</Description>
-    <Copyright>Copyright 2018</Copyright>
+    <# if(!string.IsNullOrEmpty(Information.RootNamespace))
+	{ #>
+    <RootNamespace><#= Information.RootNamespace #></RootNamespace>
+	<# }#>
+    <# if(!string.IsNullOrEmpty(Information.Company))
+	{ #>
+    <Company><#= Information.Company #></Company>
+	<# }#>
+    <# if(!string.IsNullOrEmpty(Information.Product))
+	{ #>
+    <Product><#= Information.Product #></Product>
+	<# }#>
+    <# if(!string.IsNullOrEmpty(Information.AssemblyVersion))
+	{ #>
+    <AssemblyVersion><#= Information.AssemblyVersion #></AssemblyVersion>
+	<# }#>
+    <# if(!string.IsNullOrEmpty(Information.AssemblyFileVersion))
+	{ #>
+    <FileVersion><#= Information.AssemblyFileVersion #></FileVersion>
+	<# }#>
+    <# if(!string.IsNullOrEmpty(Information.Description))
+	{ #>
+    <Description><#= Information.Description #></Description>
+	<# }#>
+    <# if(!string.IsNullOrEmpty(Information.Copyright))
+	{ #>
+    <Copyright><#= Information.Copyright #></Copyright>
+	<# }#>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="<#= BackupFolderName #>\**" />

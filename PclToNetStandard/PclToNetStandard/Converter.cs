@@ -101,7 +101,7 @@ namespace PclToNetStandard
                 Company = DteProject.Properties.Item($"{nameof(ProjectInformation.Company)}")?.Value?.ToString(),
                 Product = DteProject.Properties.Item($"{nameof(ProjectInformation.Product)}")?.Value?.ToString(),
                 AssemblyVersion = DteProject.Properties.Item($"{nameof(ProjectInformation.AssemblyVersion)}")?.Value?.ToString(),
-                AssemblyFileVersion = DteProject.Properties.Item($"{nameof(ProjectInformation.AssemblyVersion)}")?.Value?.ToString(),
+                AssemblyFileVersion = DteProject.Properties.Item($"{nameof(ProjectInformation.AssemblyFileVersion)}")?.Value?.ToString(),
                 Description = DteProject.Properties.Item($"{nameof(ProjectInformation.Description)}")?.Value?.ToString(),
                 Copyright = DteProject.Properties.Item($"{nameof(ProjectInformation.Copyright)}")?.Value?.ToString()
             };
@@ -127,7 +127,7 @@ namespace PclToNetStandard
             var packagelist = new List<PackageReference>();
             foreach (var item in nugetpackages)
             {
-                if (PackageInstaller.IsPackageInstalled(DteProject, item.Id))
+                if (PackageInstaller.IsPackageInstalledEx(DteProject, item.Id, item.VersionString))
                 {
                     var reference = new PackageReference()
                     {

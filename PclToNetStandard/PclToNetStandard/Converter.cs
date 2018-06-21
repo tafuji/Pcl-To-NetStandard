@@ -27,7 +27,7 @@ namespace PclToNetStandard
 
         protected abstract void DeleteOldVersionFiles();
 
-        protected abstract bool Convert();
+        protected abstract void Convert();
 
         protected abstract void ReloadProject();
 
@@ -91,7 +91,7 @@ namespace PclToNetStandard
                 File.Copy(AssemblyInfoFilePath, Path.Combine(propertiesDestination, Constants.AssemblyInfoCsFileName));
         }
 
-        protected override bool Convert()
+        protected override void Convert()
         {
             var converter = new NetStandardTemplate();
             var projectInformation = new ProjectInformation()
@@ -140,7 +140,6 @@ namespace PclToNetStandard
             File.Delete(ProjectFullName);
             var resultString = converter.TransformText();
             File.WriteAllText(ProjectFullName, resultString, Encoding.UTF8);
-            return true;
         }
 
         protected override void DeleteOldVersionFiles()

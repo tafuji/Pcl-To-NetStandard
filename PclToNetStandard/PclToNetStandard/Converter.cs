@@ -53,6 +53,7 @@ namespace PclToNetStandard
         private string PropertiesFolder;
         private string AssemblyInfoFilePath;
         private string BackupFolderName;
+        private string ProjectJsonFilePath;
         IVsSolution VsSolution;
         Project DteProject;
         IVsPackageInstallerServices PackageInstaller;
@@ -64,6 +65,7 @@ namespace PclToNetStandard
             ProjectFileName = project.GetProjectFileName();
             ProjectFullName = project.FullName;
             PropertiesFolder = project.GetPropertiesFolderPath();
+            ProjectJsonFilePath = project.GetProjectJsonFilePath();
             AssemblyInfoFilePath = project.GetAssemblyInfoPath();
             VsSolution = vsSolution;
             DteProject = project;
@@ -81,6 +83,9 @@ namespace PclToNetStandard
             File.Copy(ProjectFullName, Path.Combine(backupDirectory.FullName, ProjectFileName));
             if (File.Exists(PackageConfigFilePath))
                 File.Copy(PackageConfigFilePath, Path.Combine(backupDirectory.FullName, Constants.PackageConfigFileName));
+
+            if (File.Exists(ProjectJsonFilePath))
+                File.Copy(ProjectJsonFilePath, Path.Combine(backupDirectory.FullName, Constants.PackageConfigFileName));
 
             // Backup Properties folder and AssemblyInfo.cs file.
             var propertiesDestination = Path.Combine(backupDirectory.FullName, Constants.PropertiesFolderName);
@@ -104,7 +109,7 @@ namespace PclToNetStandard
                     Uri u2 = new Uri(refProject.FullName);
                     Uri relativeUri = u1.MakeRelativeUri(u2);
                     string relativePath = relativeUri.ToString();
-                    relativePath.Replace('/', System.IO.Path.DirectorySeparatorChar);
+                    relativePath.Replace('/', Path.DirectorySeparatorChar);
                     converter.ProjectReferences.Add(new ProjectReference() { Include = relativePath });
                 }
             }
@@ -125,7 +130,7 @@ namespace PclToNetStandard
             }
             File.Delete(ProjectFullName);
             var resultString = converter.TransformText();
-            File.WriteAllText(ProjectFullName, resultString, System.Text.Encoding.UTF8);
+            File.WriteAllText(ProjectFullName, resultString, Encoding.UTF8);
             return true;
         }
 
@@ -133,6 +138,8 @@ namespace PclToNetStandard
         {
             if (File.Exists(PackageConfigFilePath))
                 File.Delete(PackageConfigFilePath);
+            if (File.Exists(ProjectJsonFilePath))
+                File.Delete(ProjectJsonFilePath);
             if (File.Exists(AssemblyInfoFilePath))
                 File.Delete(AssemblyInfoFilePath);
             if (Directory.Exists(PropertiesFolder))

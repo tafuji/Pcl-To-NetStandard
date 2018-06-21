@@ -49,16 +49,5 @@ namespace PclToNetStandard
         /// <param name="project">project</param>
         /// <returns></returns>
         public static string GetProjectRootPath(this Project project) => Path.GetDirectoryName(project.FileName);
-
-        public static ProjectItem GetAssemblyInfo(this Project project)
-        {
-            ProjectItem assemblyInfo = null;
-            ProjectItem prop = project.ProjectItems.Cast<ProjectItem>().Where(p => p.Name == Constants.PropertiesFolderName).FirstOrDefault();
-            if(prop != null)
-            {
-                assemblyInfo = prop.ProjectItems.Cast<ProjectItem>().Where(p => p.Name == Constants.AssemblyInfoCsFileName).FirstOrDefault();
-            }
-            return assemblyInfo;
-        }
     }
 }

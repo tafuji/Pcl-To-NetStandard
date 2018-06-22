@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PclToNetStandard
 {
     /// <summary>
-    /// Constants class
+    /// Constant values class
     /// </summary>
     internal class Constants
     {
@@ -21,14 +21,19 @@ namespace PclToNetStandard
         /// </summary>
         public static readonly string PackageConfigFileName = "packages.config";
 
-        public static readonly string ProjectConfigJsonFineName = "project.json";
-
+        /// <summary>
+        /// Properties folder name.
+        /// </summary>
         public static readonly string PropertiesFolderName = "Properties";
 
+        /// <summary>
+        /// AssemblyInfo.cs file name.
+        /// </summary>
         public static readonly string AssemblyInfoCsFileName = "AssemblyInfo.cs";
 
-        public static readonly string ProjectJsonFileName = "project.json";
-
+        /// <summary>
+        /// Uint value of root item in Visual Studio
+        /// </summary>
         public static readonly uint VSITEMID_ROOT = 0xFFFFFFFE;
 
     }

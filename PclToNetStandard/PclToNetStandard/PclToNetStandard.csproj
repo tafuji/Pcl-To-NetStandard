@@ -71,8 +71,22 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="ConvertCommand.cs" />
-    <Compile Include="Converter.cs" />
-    <Compile Include="ProjectExtension.cs" />
+    <Compile Include="Converter\ProjectWithPackageConfigConverter.cs" />
+    <Compile Include="Converter\IProjectConverter.cs" />
+    <Compile Include="Converter\ProjectConverter.cs" />
+    <Compile Include="Converter\ProjectConverterRepository.cs" />
+    <Compile Include="Extensions\ProjectExtension.cs" />
+    <Compile Include="Templates\NetStandardTemplate.cs">
+      <DependentUpon>NetStandardTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Templates\NetStandardTemplate.Partial.cs">
+      <DependentUpon>NetStandardTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\PackageReference.cs" />
+    <Compile Include="Templates\ProjectInformation.cs" />
+    <Compile Include="Templates\ProjectReference.cs" />
     <Compile Include="VsPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -85,6 +99,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Templates\NetStandardTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>NetStandardTemplate.cs</LastGenOutput>
+    </Content>
     <VSCTCompile Include="VsPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
       <SubType>Designer</SubType>
@@ -225,12 +243,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PclToNetStandard.Templates\PclToNetStandard.Templates.csproj">
-      <Project>{c5e0690f-877e-46d9-892f-162222a26a61}</Project>
-      <Name>PclToNetStandard.Templates</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />

@@ -18,10 +18,6 @@ namespace PclToNetStandard
         /// <returns></returns>
         public static string GetAssemblyInfoPath(this Project project) => Path.Combine(project.GetPropertiesFolderPath(), Constants.AssemblyInfoCsFileName);
 
-        public static bool ContainsProjectJson(this Project project) => File.Exists(project.GetProjectJsonFilePath());
-
-        public static string GetProjectJsonFilePath(this Project project) => Path.Combine(project.GetProjectRootPath(), Constants.ProjectJsonFileName);
-
         /// <summary>
         /// Package config file path of the project.
         /// </summary>

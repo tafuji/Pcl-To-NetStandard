@@ -12,56 +12,15 @@ using Microsoft.VisualStudio;
 
 namespace PclToNetStandard
 {
-
-    internal class ProjectConverterRepository
+    internal class ProjectWithPackageConfigConverter : ProjectConverter
     {
-        public static IProjectConverter GetService(Project project, IVsPackageInstallerServices packageInstaller, IVsSolution vsSolution)
-        {
-            return new PackageConfigProjectConverter(project, packageInstaller, vsSolution);
-        }
-    }
-
-    internal abstract class ProjectConverter : IProjectConverter
-    {
-        protected abstract void BackupOldVersionFiles();
-
-        protected abstract void DeleteOldVersionFiles();
-
-        protected abstract void Convert();
-
-        protected abstract void ReloadProject();
-
-        public void Execute()
-        {
-            BackupOldVersionFiles();
-            Convert();
-            ReloadProject();
-            DeleteOldVersionFiles();
-        }
-    }
-
-    internal class PackageConfigProjectConverter : ProjectConverter
-    {
-        private string PackageConfigFilePath;
-        private string ProjectFolder;
-        private string ProjectFileName;
-        private string ProjectFullName;
-        private string PropertiesFolder;
-        private string AssemblyInfoFilePath;
-        private string BackupFolderName;
-        private string ProjectJsonFilePath;
-        IVsSolution VsSolution;
-        Project DteProject;
-        IVsPackageInstallerServices PackageInstaller;
-
-        public PackageConfigProjectConverter(Project project, IVsPackageInstallerServices packageInstaller, IVsSolution vsSolution)
+        public ProjectWithPackageConfigConverter(Project project, IVsPackageInstallerServices packageInstaller, IVsSolution vsSolution)
         {
             PackageConfigFilePath = project.GetPackageConfigFilePath();
             ProjectFolder = project.GetProjectRootPath();
             ProjectFileName = project.GetProjectFileName();
             ProjectFullName = project.FullName;
             PropertiesFolder = project.GetPropertiesFolderPath();
-            ProjectJsonFilePath = project.GetProjectJsonFilePath();
             AssemblyInfoFilePath = project.GetAssemblyInfoPath();
             VsSolution = vsSolution;
             DteProject = project;
@@ -79,9 +38,6 @@ namespace PclToNetStandard
             File.Copy(ProjectFullName, Path.Combine(backupDirectory.FullName, ProjectFileName));
             if (File.Exists(PackageConfigFilePath))
                 File.Copy(PackageConfigFilePath, Path.Combine(backupDirectory.FullName, Constants.PackageConfigFileName));
-
-            if (File.Exists(ProjectJsonFilePath))
-                File.Copy(ProjectJsonFilePath, Path.Combine(backupDirectory.FullName, Constants.PackageConfigFileName));
 
             // Backup Properties folder and AssemblyInfo.cs file.
             var propertiesDestination = Path.Combine(backupDirectory.FullName, Constants.PropertiesFolderName);
@@ -114,7 +70,7 @@ namespace PclToNetStandard
                 if (reference.SourceProject != null)
                 {
                     Project refProject = reference.SourceProject;
-                    Uri u1 = new Uri($"{ProjectFolder}{System.IO.Path.DirectorySeparatorChar}");
+                    Uri u1 = new Uri($"{ProjectFolder}{Path.DirectorySeparatorChar}");
                     Uri u2 = new Uri(refProject.FullName);
                     Uri relativeUri = u1.MakeRelativeUri(u2);
                     string relativePath = relativeUri.ToString();
@@ -146,8 +102,6 @@ namespace PclToNetStandard
         {
             if (File.Exists(PackageConfigFilePath))
                 File.Delete(PackageConfigFilePath);
-            if (File.Exists(ProjectJsonFilePath))
-                File.Delete(ProjectJsonFilePath);
             if (File.Exists(AssemblyInfoFilePath))
                 File.Delete(AssemblyInfoFilePath);
             if (Directory.Exists(PropertiesFolder))
@@ -165,10 +119,4 @@ namespace PclToNetStandard
             solution4.ReloadProject(guid);
         }
     }
-
-    interface IProjectConverter
-    {
-        void Execute();
-    }
-
 }

@@ -103,6 +103,9 @@ namespace PclToNetStandard
         }
 
         private IVsSolution _solution;
+        /// <summary>
+        /// Solution.
+        /// </summary>
         private IVsSolution Solution
         {
             get
@@ -114,6 +117,9 @@ namespace PclToNetStandard
             }
         }
 
+        /// <summary>
+        /// Package installer service.
+        /// </summary>
         private IVsPackageInstallerServices PackageInstallerService;
 
         /// <summary>

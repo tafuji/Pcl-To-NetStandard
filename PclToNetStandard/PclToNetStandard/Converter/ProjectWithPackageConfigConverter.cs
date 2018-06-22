@@ -1,14 +1,13 @@
-﻿using EnvDTE;
-using System;
+﻿using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using PclToNetStandard.Templates;
+using EnvDTE;
 using NuGet.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio;
+using PclToNetStandard.Templates;
 
 namespace PclToNetStandard
 {
@@ -50,6 +49,7 @@ namespace PclToNetStandard
         protected override void Convert()
         {
             var converter = new NetStandardTemplate();
+            converter.BackupFolderName = BackupFolderName;
             var projectInformation = new ProjectInformation()
             {
                 AssemblyName = DteProject.Properties.Item($"{nameof(ProjectInformation.AssemblyName)}").Value?.ToString(),
@@ -78,7 +78,7 @@ namespace PclToNetStandard
                     converter.ProjectReferences.Add(new ProjectReference() { Include = relativePath });
                 }
             }
-            converter.BackupFolderName = BackupFolderName;
+
             var nugetpackages = PackageInstaller.GetInstalledPackages().ToList();
             var packagelist = new List<PackageReference>();
             foreach (var item in nugetpackages)

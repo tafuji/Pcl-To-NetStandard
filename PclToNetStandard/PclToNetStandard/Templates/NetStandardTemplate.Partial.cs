@@ -16,10 +16,4 @@ namespace PclToNetStandard.Templates
 
         public string BackupFolderName { get; set; }
     }
-
-   
-
-
-
-
 }

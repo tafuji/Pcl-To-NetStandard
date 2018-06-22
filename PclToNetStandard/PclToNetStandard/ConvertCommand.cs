@@ -7,15 +7,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EnvDTE;
+using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Flavor;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
-using PclToNetStandard.Templates;
-using Microsoft.VisualStudio;
-using VSLangProj;
 using NuGet.VisualStudio;
-using Microsoft.VisualStudio.ComponentModelHost;
 
 namespace PclToNetStandard
 {

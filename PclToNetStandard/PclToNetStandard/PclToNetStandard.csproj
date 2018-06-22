@@ -76,6 +76,7 @@
     <Compile Include="Converter\ProjectConverter.cs" />
     <Compile Include="Converter\ProjectConverterRepository.cs" />
     <Compile Include="Extensions\ProjectExtension.cs" />
+    <Compile Include="Extensions\DteExtension.cs" />
     <Compile Include="Templates\NetStandardTemplate.cs">
       <DependentUpon>NetStandardTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -84,9 +85,6 @@
     <Compile Include="Templates\NetStandardTemplate.Partial.cs">
       <DependentUpon>NetStandardTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Templates\PackageReference.cs" />
-    <Compile Include="Templates\ProjectInformation.cs" />
-    <Compile Include="Templates\ProjectReference.cs" />
     <Compile Include="VsPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -99,6 +97,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Convert.png" />
     <Content Include="Templates\NetStandardTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>NetStandardTemplate.cs</LastGenOutput>
@@ -108,7 +107,6 @@
       <SubType>Designer</SubType>
     </VSCTCompile>
     <Content Include="index.html" />
-    <Content Include="Resources\ConvertCommand.png" />
     <Content Include="Resources\VsPackage.ico" />
     <Content Include="stylesheet.css" />
   </ItemGroup>
@@ -199,8 +197,8 @@
     <Reference Include="Microsoft.VisualStudio.Validation, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.VisualStudio.Validation.15.0.82\lib\net45\Microsoft.VisualStudio.Validation.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NuGet.VisualStudio, Version=4.7.0.5, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\NuGet.VisualStudio.4.7.0\lib\net46\NuGet.VisualStudio.dll</HintPath>

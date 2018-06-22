@@ -13,6 +13,7 @@ using Microsoft.VisualStudio.Shell.Flavor;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
 using NuGet.VisualStudio;
+using PclToNetStandard.Extensions;
 
 namespace PclToNetStandard
 {
@@ -66,17 +67,9 @@ namespace PclToNetStandard
             Project project = (Project)((object[])Dte.ActiveSolutionProjects)[0];
             if (project == null)
                 return;
-            Solution.GetProjectOfUniqueName(project.UniqueName, out IVsHierarchy hierarchy);
-            IVsAggregatableProjectCorrected ap = hierarchy as IVsAggregatableProjectCorrected;
-            string projTypeGuids = null;
-            ap?.GetAggregateProjectTypeGuids(out projTypeGuids);
             OleMenuCommand cmd = (OleMenuCommand)sender;
-            cmd.Visible = projTypeGuids == Constants.PclProjectTypeGuids;
-
-            Solution vsSolution = Dte.Solution;
-            SolutionBuild solutionBuild =  vsSolution.SolutionBuild;
-            vsBuildState buildState = solutionBuild.BuildState;
-            cmd.Enabled = buildState != vsBuildState.vsBuildStateInProgress;
+            cmd.Visible = project.IsPclProject(Solution);
+            cmd.Enabled = !Dte.OnBuilding() && !Dte.OnDebugging();
         }
 
         /// <summary>

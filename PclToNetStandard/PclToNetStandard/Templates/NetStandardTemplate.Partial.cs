@@ -8,12 +8,16 @@ namespace PclToNetStandard.Templates
 {
     internal partial class NetStandardTemplate
     {
-        public ProjectInformation Information { get; set; }
-
-        public List<PackageReference> Packages { get; set; } = new List<PackageReference>();
-
-        public List<ProjectReference> ProjectReferences { get; set; } = new List<ProjectReference>();
-
+        public string AssemblyName { get; set; }
+        public string RootNamespace { get; set; }
+        public string Company { get; set; }
+        public string Product { get; set; }
+        public string AssemblyVersion { get; set; }
+        public string AssemblyFileVersion { get; set; }
+        public string Description { get; set; }
+        public string Copyright { get; set; }
+        public Dictionary<string, string> Packages { get; set; }
+        public List<string> ProjectReferences { get; set; }
         public string BackupFolderName { get; set; }
     }
 }

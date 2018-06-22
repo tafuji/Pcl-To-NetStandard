@@ -3,37 +3,37 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-<# if(!string.IsNullOrEmpty(Information.AssemblyName))
+<# if(!string.IsNullOrEmpty(AssemblyName))
 { #>
-    <AssemblyName><#= Information.AssemblyName #></AssemblyName>
+    <AssemblyName><#= AssemblyName #></AssemblyName>
 <# }#>
-<# if(!string.IsNullOrEmpty(Information.RootNamespace))
+<# if(!string.IsNullOrEmpty(RootNamespace))
 { #>
-    <RootNamespace><#= Information.RootNamespace #></RootNamespace>
+    <RootNamespace><#= RootNamespace #></RootNamespace>
 <# }#>
-<# if(!string.IsNullOrEmpty(Information.Company))
+<# if(!string.IsNullOrEmpty(Company))
 { #>
-    <Company><#= Information.Company #></Company>
+    <Company><#= Company #></Company>
 <# }#>
-<# if(!string.IsNullOrEmpty(Information.Product))
+<# if(!string.IsNullOrEmpty(Product))
 { #>
-    <Product><#= Information.Product #></Product>
+    <Product><#= Product #></Product>
 <# }#>
-<# if(!string.IsNullOrEmpty(Information.AssemblyVersion))
+<# if(!string.IsNullOrEmpty(AssemblyVersion))
 { #>
-    <AssemblyVersion><#= Information.AssemblyVersion #></AssemblyVersion>
+    <AssemblyVersion><#= AssemblyVersion #></AssemblyVersion>
 <# }#>
-<# if(!string.IsNullOrEmpty(Information.AssemblyFileVersion))
+<# if(!string.IsNullOrEmpty(AssemblyFileVersion))
 { #>
-    <FileVersion><#= Information.AssemblyFileVersion #></FileVersion>
+    <FileVersion><#= AssemblyFileVersion #></FileVersion>
 <# }#>
-<# if(!string.IsNullOrEmpty(Information.Description))
+<# if(!string.IsNullOrEmpty(Description))
 { #>
-    <Description><#= Information.Description #></Description>
+    <Description><#= Description #></Description>
 <# }#>
-<# if(!string.IsNullOrEmpty(Information.Copyright))
+<# if(!string.IsNullOrEmpty(Copyright))
 { #>
-    <Copyright><#= Information.Copyright #></Copyright>
+    <Copyright><#= Copyright #></Copyright>
 <# }#>
   </PropertyGroup>
   <ItemGroup>
@@ -42,16 +42,16 @@
     <None Remove="<#= BackupFolderName #>\**" />
   </ItemGroup>
   <ItemGroup>
-  <# foreach (PackageReference item in Packages)
-     { #>
-    <PackageReference Include="<#= item.Name #>" Version="<#= item.Version #>"/>
-  <# }#>
+<# foreach (var item in Packages)
+{ #>
+    <PackageReference Include="<#= item.Key #>" Version="<#= item.Value #>"/>
+<# }#>
   </ItemGroup>
   
   <ItemGroup>
-  <# foreach (ProjectReference item in ProjectReferences)
-     { #>
-    <ProjectReference Include="<#= item.Include #>" />
-  <# }#>
+<# foreach (string include in ProjectReferences)
+{ #>
+    <ProjectReference Include="<#= include #>" />
+<# }#>
   </ItemGroup>
 </Project>

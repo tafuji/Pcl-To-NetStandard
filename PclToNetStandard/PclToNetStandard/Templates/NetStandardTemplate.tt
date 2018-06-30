@@ -1,0 +1,57 @@
+﻿<#@ template language="C#" visibility="internal" #>
+<#@ import namespace="System" #>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+<# if(!string.IsNullOrEmpty(AssemblyName))
+{ #>
+    <AssemblyName><#= AssemblyName #></AssemblyName>
+<# }#>
+<# if(!string.IsNullOrEmpty(RootNamespace))
+{ #>
+    <RootNamespace><#= RootNamespace #></RootNamespace>
+<# }#>
+<# if(!string.IsNullOrEmpty(Company))
+{ #>
+    <Company><#= Company #></Company>
+<# }#>
+<# if(!string.IsNullOrEmpty(Product))
+{ #>
+    <Product><#= Product #></Product>
+<# }#>
+<# if(!string.IsNullOrEmpty(AssemblyVersion))
+{ #>
+    <AssemblyVersion><#= AssemblyVersion #></AssemblyVersion>
+<# }#>
+<# if(!string.IsNullOrEmpty(AssemblyFileVersion))
+{ #>
+    <FileVersion><#= AssemblyFileVersion #></FileVersion>
+<# }#>
+<# if(!string.IsNullOrEmpty(Description))
+{ #>
+    <Description><#= Description #></Description>
+<# }#>
+<# if(!string.IsNullOrEmpty(Copyright))
+{ #>
+    <Copyright><#= Copyright #></Copyright>
+<# }#>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="<#= BackupFolderName #>\**" />
+    <EmbeddedResource Remove="<#= BackupFolderName #>\**" />
+    <None Remove="<#= BackupFolderName #>\**" />
+  </ItemGroup>
+  <ItemGroup>
+<# foreach (var item in Packages)
+{ #>
+    <PackageReference Include="<#= item.Key #>" Version="<#= item.Value #>"/>
+<# }#>
+  </ItemGroup>
+  
+  <ItemGroup>
+<# foreach (string include in ProjectReferences)
+{ #>
+    <ProjectReference Include="<#= include #>" />
+<# }#>
+  </ItemGroup>
+</Project>

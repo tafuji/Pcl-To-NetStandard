@@ -22,7 +22,7 @@ Right click on a portable class library, and select ```Convert to .NET Standard`
 This extension provides the folowing features:
 
 - Convert portable class library project to .NET Standard 2.0 project
-    - Ii creates a new csprj file for .NET Standard 2.0
+    - Ii creates a new csproj file for .NET Standard 2.0
     - It migrates package references, which were referenced in portable class library, to new csproj file
     - It also migrates project references, which were used in portable class library, to new csproj file
 - Backup files which were used only in portable project library

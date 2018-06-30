@@ -1,6 +1,6 @@
-# PCL to .NET Standard
+# PCL to .NET Standard Library
 
-Visual Studio Extension for converting old portable class libraries to .NET Standard projects automatically.
+Visual Studio Extension for converting old portable class libraries to .NET Standard 2.0 projects automatically.
 
 ![screenshot](https://raw.githubusercontent.com/tafuji/Pcl-To-NetStandard/master/Screenshots/Screenshot.png)
 

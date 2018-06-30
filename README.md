@@ -4,9 +4,10 @@ Visual Studio Extension for converting old portable class libraries to .NET Stan
 
 ![screenshot](https://raw.githubusercontent.com/tafuji/Pcl-To-NetStandard/master/Screenshots/Screenshot.png)
 
-## Installation
+## How to Install
 
-T.B.D
+- Please download the latest version of VSIX file form [release page](https://github.com/tafuji/Pcl-To-NetStandard/releases/).
+- Double click the VSIX file and install it.
 
 ## Usage
 

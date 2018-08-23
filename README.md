@@ -1,4 +1,4 @@
-# PCL to .NET Standard Library
+﻿# PCL to .NET Standard Library
 
 Visual Studio Extension for converting old portable class libraries to .NET Standard 2.0 projects automatically.
 
@@ -6,7 +6,15 @@ Visual Studio Extension for converting old portable class libraries to .NET Stan
 
 ## How to Install
 
-- Please download the latest version of VSIX file form [release page](https://github.com/tafuji/Pcl-To-NetStandard/releases/).
+### Automatic
+
+You can install the extension via "Extensions and Updates" window on Visual Studio 2017.
+
+### Manual
+
+You can install the extension by downloading the VSIX file on isual Studio Marketplace.
+
+- Please download the latest version of VSIX file form [PCL To .Net Standard](https://marketplace.visualstudio.com/items?itemName=tafuji.pcl2netstandard)
 - Double click the VSIX file and install it.
 
 ## Usage

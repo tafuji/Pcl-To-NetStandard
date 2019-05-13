@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PclToNetStandard.Extensions
 {
@@ -57,6 +55,7 @@ namespace PclToNetStandard.Extensions
         /// <returns></returns>
         public static bool IsPclProject(this Project project, IVsSolution solution)
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             solution.GetProjectOfUniqueName(project.UniqueName, out IVsHierarchy hierarchy);
             IVsAggregatableProjectCorrected ap = hierarchy as IVsAggregatableProjectCorrected;
             string projTypeGuids = null;

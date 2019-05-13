@@ -1,19 +1,13 @@
-﻿using System;
-using System.ComponentModel.Design;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using EnvDTE;
+﻿using EnvDTE;
+using Microsoft;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Flavor;
 using Microsoft.VisualStudio.Shell.Interop;
-using Task = System.Threading.Tasks.Task;
 using NuGet.VisualStudio;
 using PclToNetStandard.Extensions;
+using System;
+using System.ComponentModel.Design;
+using Task = System.Threading.Tasks.Task;
 
 namespace PclToNetStandard
 {
@@ -40,7 +34,7 @@ namespace PclToNetStandard
         /// <summary>
         /// DTE object
         /// </summary>
-        private EnvDTE.DTE Dte;
+        private DTE Dte;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConvertCommand"/> class.
@@ -120,11 +114,14 @@ namespace PclToNetStandard
         {
             // Verify the current thread is the UI thread - the call to AddCommand in ConvertCommand's constructor requires
             // the UI thread.
-            ThreadHelper.ThrowIfNotOnUIThread();
+            //ThreadHelper.
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             OleMenuCommandService commandService = await package.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
             Instance = new ConvertCommand(package, commandService);
             Instance.Dte = await package.GetServiceAsync(typeof(DTE)) as DTE;
+            Assumes.Present(Instance.Dte);
             var componentModel = await package.GetServiceAsync(typeof(SComponentModel)) as IComponentModel;
+            Assumes.Present(componentModel);
             Instance.PackageInstallerService = componentModel.GetService<IVsPackageInstallerServices>();
         }
 

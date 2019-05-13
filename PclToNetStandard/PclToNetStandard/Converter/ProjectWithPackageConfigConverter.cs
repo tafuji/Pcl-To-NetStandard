@@ -1,14 +1,13 @@
-﻿using System;
+﻿using EnvDTE;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell.Interop;
+using NuGet.VisualStudio;
+using PclToNetStandard.Extensions;
+using PclToNetStandard.Templates;
+using System;
 using System.IO;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EnvDTE;
-using NuGet.VisualStudio;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio;
-using PclToNetStandard.Templates;
-using PclToNetStandard.Extensions;
 
 namespace PclToNetStandard
 {
@@ -79,6 +78,7 @@ namespace PclToNetStandard
 
         protected override void ReloadProject()
         {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             IVsSolution4 solution4 = VsSolution as IVsSolution4;
             VsSolution.GetProjectOfUniqueName(DteProject.UniqueName, out IVsHierarchy hierarchy);
             int hr = 0;

@@ -1,16 +1,9 @@
-﻿using System;
-using System.ComponentModel.Design;
-using System.Diagnostics;
+﻿using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
+using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.OLE.Interop;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.Win32;
 using Task = System.Threading.Tasks.Task;
 
 namespace PclToNetStandard
@@ -32,7 +25,7 @@ namespace PclToNetStandard
     /// To get loaded into VS, the package must be referred by &lt;Asset Type="Microsoft.VisualStudio.VsPackage" ...&gt; in .vsixmanifest file.
     /// </para>
     /// </remarks>
-    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string, PackageAutoLoadFlags.BackgroundLoad)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [ProvideMenuResource("Menus.ctmenu", 1)]
